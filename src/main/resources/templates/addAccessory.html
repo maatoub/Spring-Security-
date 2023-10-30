@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en"
+   xmlns:th="http://www.thymeleaf.org"
+   xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5" 
+   >
+   <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Add accessory</title>
+      <!-- Inclure les fichiers CSS et JavaScript de Bootstrap 5 -->
+      <link
+         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+         rel="stylesheet"
+         />
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+   </head>
+   <body>
+      <nav class="navbar navbar-expand-lg bg-primary p-3" data-bs-theme="dark">
+         <div class="container-fluid">
+            <a class="navbar-brand" href="#">App</a>
+            <button
+               class="navbar-toggler"
+               type="button"
+               data-bs-toggle="collapse"
+               data-bs-target="#navbarColor01"
+               aria-controls="navbarColor01"
+               aria-expanded="false"
+               aria-label="Toggle navigation"
+               >
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarColor01">
+               <ul class="navbar-nav me-auto h5 ml-5">
+                  <li class="nav-item">
+                     <a class="nav-link active" th:href="@{/home}"
+                        >Home
+                     </a>
+                  </li>
+                  </li>
+                  <li class="nav-item dropdown">
+                     <a
+                        class="nav-link dropdown-toggle "
+                        data-bs-toggle="dropdown"
+                        href="#"
+                        role="button"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                        ><span sec:authentication="name">Profil</span>
+                     </a
+                        >
+                     <div class="dropdown-menu">
+                        <a class="dropdown-item" 
+                           th:href="@{/}" 
+                           sec:authorize="hasRole('ADMIN')">
+                        Add
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" th:href="@{/logout}">Logout</a>
+                     </div>
+                  </li>
+               </ul>
+               <form class="d-flex">
+                  <input
+                     class="form-control me-sm-2"
+                     type="search"
+                     placeholder="Search"
+                     />
+                  <button class="btn btn-secondary my-2 my-sm-0" type="submit">
+                  Search
+                  </button>
+               </form>
+            </div>
+         </div>
+      </nav>
+      <div class="container ">
+         <div class=" align-items-center mt-5">
+            <h5 class="text-center">Add New Accessory</h5>
+         </div>
+         <div class="container d-flex justify-content-center align-items-center">
+            <form method="post" th:action="@{/saveAccessory}" th:object="${newAccessory}">
+               <div class="d-grid mt-4">
+                  <div class="row mb-3">
+                     <div class="col">
+                        <div class="form-floating">
+                          <select class="form-select"
+                                  name="category">
+                            <option th:each="cat : ${listCategory}"
+                                    th:text="${cat.nameCategory}" 
+                                    th:value="${cat.idCategory}">Option 1</option>
+                          </select>
+                           <label for="accessoryName">Accessory Name</label>
+                        </div>
+                     </div>
+                     <div class="col">
+                        <div class="form-floating">
+                           <input type="text" class="form-control" th:field="*{brand}" id="brand" name="brand" placeholder="Brand">
+                           <label for="brand">Brand</label>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="row mb-3">
+                     <div class="col">
+                        <div class="form-floating">
+                           <input type="number" class="form-control" th:field="*{price}" id="price" name="price" placeholder="Price">
+                           <label for="price">Price</label>
+                        </div>
+                     </div>
+                  <div class="d-grid gap-2 mt-3">
+                     <button class="btn btn-lg btn-primary" type="submit">Save</button>
+                  </div>
+               </div>
+            </form>
+         </div>
+      </div>
+   </body>
+</html> 
