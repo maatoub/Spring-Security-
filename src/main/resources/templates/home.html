@@ -1,83 +1,80 @@
 <!DOCTYPE html>
-<html lang="en"
+<html
+  lang="en"
   xmlns:th="http://www.thymeleaf.org"
   xmlns="http://www.w3.org/1999/xhtml"
-  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5" 
+  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{template}"
 >
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Home page</title>
-    <!-- Inclure les fichiers CSS et JavaScript de Bootstrap 5 -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg bg-primary p-3" data-bs-theme="dark">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="#">App</a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarColor01"
-          aria-controls="navbarColor01"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarColor01">
-          <ul class="navbar-nav me-auto h5 ml-5">
-            <li class="nav-item">
-              <a class="nav-link active" th:href="@{/home}"
-                >Home
-                
-              </a>
-            </li>
-            </li>
-            <li class="nav-item dropdown">
+    <div layout:fragment="content">
+      <div class="container">
+        <div class="mt-5">
+          <table class="table table-sm table-inverse table-responsive">
+            <thead class="thead-inverse">
+              <tr>
+                <th>Id</th>
+                <th>Accessory</th>
+                <th>Price</th>
+                <th>Category</th>
+                <th sec:authorize="hasRole('ADMIN')">Delete</th>
+                <th sec:authorize="hasRole('ADMIN')">Edit</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="acc : ${listAccessory}">
+                <td th:text="${acc.idAccessory}">id</td>
+                <td th:text="${acc.brand}">brand</td>
+                <td th:text="${acc.price}">price</td>
+                <td th:text="${acc.category.nameCategory}">1234</td>
+                <td class="p-2" sec:authorize="hasRole('ADMIN')">
+                  <a
+                    th:href="@{/accessory/delete(id=${acc.idAccessory},keyword=${keyword},page=${currentPage})}"
+                  >
+                    <i
+                      class="fa-solid fa-trash fa-2xl"
+                      style="color: #d21e1e"
+                    ></i>
+                  </a>
+                </td>
+                <td class="p-2" sec:authorize="hasRole('ADMIN')">
+                  <a th:href="@{/edit}">
+                    <i
+                      class="fa-solid fa-pen-to-square fa-2xl"
+                      style="color: #2759b0"
+                    ></i>
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <!-- Pagination -->
+          <ul class="nav nav-pills">
+            <li class="ms-1" th:each="page,status: ${pages}">
               <a
-                class="nav-link dropdown-toggle "
-                data-bs-toggle="dropdown"
-                href="#"
-                role="button"
-                aria-haspopup="true"
-                aria-expanded="false"
-                ><span sec:authentication="name">Profil</span>
-                </a
-              >
-              <div class="dropdown-menu">
-                 
-            <a class="dropdown-item" 
-               th:href="@{/addAccessory}" 
-               sec:authorize="hasRole('ADMIN')">
-                Add accessory
-            </a>
-            <div class="dropdown-divider"></div>
-                <a class="dropdown-item" th:href="@{/logout}">Logout</a>
-              </div>
+                th:class="${status.index==currentPage? 'btn btn-primary' : 'btn btn-outline-primary'}"
+                th:text="${status.index}"
+                th:href="@{/home(page=${status.index}, keyword=${keyword})}"
+              ></a>
             </li>
           </ul>
-          <form class="d-flex">
-            <input
-              class="form-control me-sm-2"
-              type="search"
-              placeholder="Search"
-            />
-            <button class="btn btn-secondary my-2 my-sm-0" type="submit">
-              Search
-            </button>
-          </form>
         </div>
       </div>
-    </nav>
-    <!-- Le contenu de votre page -->
-    <div class="container">
-         <span sec:authorize="hasRole('ADMIN')">hello Admin</span>
-    </div>   
+    </div>
   </body>
 </html>

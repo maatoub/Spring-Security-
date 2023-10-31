@@ -18,13 +18,38 @@ public class SecurityConfig {
     public JdbcUserDetailsManager jdbcUserDetailsManager(DataSource dataSource) {
         return new JdbcUserDetailsManager(dataSource);
     }
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(csrf -> csrf.disable());
-        http.authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
+        http.csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(authorize -> {
+                    authorize
+                            // Configure public resources
+                            .requestMatchers("/", "/css/**").permitAll()
+                            .requestMatchers("/accessory/**").hasRole("ADMIN")
+                            .requestMatchers("/category/**").hasRole("ADMIN")
+                            .anyRequest().authenticated();
+                })
                 .httpBasic(Customizer.withDefaults())
                 .formLogin(login -> login.defaultSuccessUrl("/home"));
-
         return http.build();
     }
+
+    /*
+     * @Bean
+     * public SecurityFilterChain securityFilterChain(HttpSecurity http) throws
+     * Exception {
+     * http.csrf(
+     * csrf -> csrf.disable());
+     * http.authorizeHttpRequests(
+     * auth -> auth.anyRequest().authenticated())
+     * .httpBasic(Customizer.withDefaults())
+     * .formLogin(
+     * login -> login.defaultSuccessUrl("/home"));// Configure public resources
+     * http.authorizeHttpRequests(
+     * req -> req.requestMatchers("/home",
+     * "/css/**").permitAll().anyRequest().authenticated());
+     * return http.build();
+     * }
+     */
 }
