@@ -9,17 +9,21 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.springdemo.entities.Accessory;
 import com.example.springdemo.entities.Category;
 import com.example.springdemo.repository.RepoAccessory;
 import com.example.springdemo.repository.RepoCategory;
+
+import jakarta.validation.Valid;
 
 @Controller
 public class ControllerApp {
@@ -55,9 +59,16 @@ public class ControllerApp {
     }
 
     @PostMapping("/accessory/save")
-    public String saveAccessory(Model model, @ModelAttribute Accessory accessory) {
-        repoAccessory.save(accessory);
-
+    public String saveAccessory(Model model,
+            @Valid @ModelAttribute("newAccessory") Accessory newAccessory,
+            BindingResult result,
+            RedirectAttributes redirectAttributes) {
+        if (result.hasErrors()) {
+            model.addAttribute("listCategory", repoCategory.findAll());
+            return "addAccessory";
+        }
+        repoAccessory.save(newAccessory);
+        redirectAttributes.addFlashAttribute("successMessage", "Accessory added successfully");
         return "redirect:/accessory/add";
     }
 
@@ -70,22 +81,19 @@ public class ControllerApp {
     }
 
     @PostMapping("/category/save")
-    public String addNewCategory(@ModelAttribute Category category) {
+    public String addNewCategory(@ModelAttribute("newCategory") @Valid Category category,
+                                BindingResult result) {
         repoCategory.save(category);
         return "redirect:/home";
     }
 
-    /************** Accessory ***************** */
+    /************** delete Accessory ***************** */
 
     @GetMapping("/accessory/delete")
-    public String deleteAcc(Long id, String keyword, int page) {
+    public String deleteAcc(Long id, String keyword, int page, RedirectAttributes redirectAttributes) {
         repoAccessory.deleteById(id);
+        redirectAttributes.addFlashAttribute("successMessage", "Accessory deleted successfully");
         return "redirect:/home?keyword=" + keyword + "&page=" + page;
     }
 
-    @GetMapping("/template")
-    public String templatePage() {
-
-        return "template";
-    }
 }

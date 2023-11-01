@@ -10,7 +10,6 @@
       <meta charset="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <title>Add accessory</title>
-    
       <link
          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
          rel="stylesheet"
@@ -18,48 +17,52 @@
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
    </head>
    <body>
-      <div layout:fragment= "content">
-         <div class="container ">
+      <div layout:fragment= "add-accessory-page">
+      <div class="container ">
          <div class=" align-items-center mt-5">
             <h5 class="text-center">Add New Accessory</h5>
          </div>
-         
+         <div style="height: 50px;">
+            <div th:if="${successMessage}" th:text="${successMessage}" class="alert alert-success"></div>
+         </div>
          <div class="container d-flex justify-content-center align-items-center">
-            <form method="post" th:action="@{/accessory/save}" th:object="${newAccessory}">
+            <form method="post" th:action="@{/accessory/save}" th:object="${newAccessory}" >
                <div class="d-grid mt-4">
                   <div class="row mb-3">
                      <div class="col">
                         <div class="form-floating">
-                          <select class="form-select"
-                                  name="category">
-                            <option th:each="cat : ${listCategory}"
-                                    th:text="${cat.nameCategory}" 
-                                    th:value="${cat.idCategory}">Option 1</option>
-                          </select>
+                           <select class="form-select"
+                              name="category">
+                              <option th:each="cat : ${listCategory}"
+                                 th:text="${cat.nameCategory}" 
+                                 th:value="${cat.idCategory}">Option 1</option>
+                           </select>
                            <label for="accessoryName">Accessory Name</label>
                         </div>
                      </div>
                      <div class="col">
                         <div class="form-floating">
-                           <input type="text" class="form-control" th:field="*{brand}" id="brand" name="brand" placeholder="Brand">
+                           <input type="text" class="form-control" th:value="${newAccessory.brand}" name="brand" placeholder="Brand">
                            <label for="brand">Brand</label>
+                             <span class="text-danger" th:errors="${newAccessory.brand}"></span>
                         </div>
                      </div>
                   </div>
                   <div class="row mb-3">
                      <div class="col">
                         <div class="form-floating">
-                           <input type="number" class="form-control" th:field="*{price}" id="price" name="price" placeholder="Price">
+                           <input type="text" class="form-control"  th:value="${newAccessory.price}" name="price" placeholder="Price">
                            <label for="price">Price</label>
+                           <span class="text-danger" th:errors="${newAccessory.price}"></span>
                         </div>
                      </div>
-                  <div class="d-grid gap-2 mt-3">
-                     <button class="btn btn-lg btn-primary" type="submit">Save</button>
+                     <div class="d-grid gap-2 mt-3">
+                        <button class="btn btn-lg btn-primary" type="submit">Save</button>
+                     </div>
                   </div>
-               </div>
             </form>
+            </div>
          </div>
       </div>
-      </div> 
    </body>
-</html> 
+</html>

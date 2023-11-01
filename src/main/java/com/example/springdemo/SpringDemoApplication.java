@@ -39,7 +39,7 @@ public class SpringDemoApplication {
 
 	}
 
-	//@Bean
+	// @Bean
 	CommandLineRunner commandLineRunnerUserDetails(AppService appService) {
 
 		return args -> {
