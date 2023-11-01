@@ -1,19 +1,16 @@
 package com.example.springdemo.web;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.DeleteMapping;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -82,9 +79,15 @@ public class ControllerApp {
 
     @PostMapping("/category/save")
     public String addNewCategory(@ModelAttribute("newCategory") @Valid Category category,
-                                BindingResult result) {
+            BindingResult result,
+            RedirectAttributes redirectAttributes) {
+        if (result.hasErrors()) {
+
+            return "addCategory";
+        }
         repoCategory.save(category);
-        return "redirect:/home";
+        redirectAttributes.addFlashAttribute("successMessage", "Accessory added successfully");
+        return "redirect:/category/add";
     }
 
     /************** delete Accessory ***************** */
