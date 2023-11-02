@@ -1,5 +1,6 @@
 package com.example.springdemo.web;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -10,7 +11,6 @@ import org.springframework.validation.BindingResult;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -82,7 +82,6 @@ public class ControllerApp {
             BindingResult result,
             RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
-
             return "addCategory";
         }
         repoCategory.save(category);
@@ -102,8 +101,18 @@ public class ControllerApp {
     /************** Update Accessory ***************** */
 
     @GetMapping("/accessory/update")
-    public String updateAccessory() {
-
+    public String updateAccessory(Long id, Model model) {
+        Accessory acc = repoAccessory.findById(id).get();
+        List<Category> categories = repoCategory.findAll();
+        model.addAttribute("accessory", acc);
+        model.addAttribute("categories", categories);
         return "formUpdateAcc";
     }
+
+    @PostMapping("/accessory/update/save")
+    public String updating(@ModelAttribute Accessory accessory) {
+        repoAccessory.save(accessory);
+        return "redirect:/home";
+    }
+
 }

@@ -19,26 +19,56 @@
   <body>
     <div layout:fragment="form-update-accessory">
       <div class="row mt-5">
-        <div class="col-md-3 offset-sm-3">
-          <div class="card w-100" style="width: 18rem">
-            <div class="card-header-">
+        <div class="col-md-6 offset-sm-3">
+          <div class="card" style="width: 28rem">
+            <div class="card-header">
               <h5 class="card-title p-2 text-center">Update Accessory</h5>
             </div>
             <div class="card-body">
-              <form method="post">
+              <form
+                method="post"
+                th:action="@{/accessory/update/save}"
+                th:object="${accessory}"
+              >
                 <div>
-                  <input type="hidden" />
-                </div>
-                <div>
-                  <label for="" class="form-label">Accessory Name</label>
-                  <input type="text" name="" class="form-control" />
+                  <input type="hidden" th:field="*{idAccessory}" />
                 </div>
                 <div class="mb-2">
-                  <label for="" class="form-label">Accessory Name</label>
-                  <input type="text" name="" class="form-control" />
+                  <label for="category" class="form-label">Category</label>
+                  <select class="form-select">
+                    <option
+                      th:each="c : ${categories}"
+                      th:text="${c.nameCategory}"
+                      th:value="${c.idCategory}"
+                      th:selected="${c.idCategory==accessory.category.idCategory}"
+                    ></option>
+                  </select>
+                </div>
+                <div>
+                  <label for="accessoryName" class="form-label"
+                    >Accessory Name</label
+                  >
+                  <input
+                    type="text"
+                    name="accessoryName"
+                    class="form-control"
+                    th:field="*{brand}"
+                  />
                 </div>
                 <div class="mb-2">
-                  <button class="btn btn-outline-primary" type="submit">
+                  <label for="price" class="form-label">Price</label>
+                  <input
+                    type="text"
+                    th:field="*{price}"
+                    name="price"
+                    class="form-control"
+                  />
+                </div>
+                <div class="mb-2">
+                  <button
+                    class="btn btn-outline-primary mt-2 text-center"
+                    type="submit"
+                  >
                     Update
                   </button>
                 </div>

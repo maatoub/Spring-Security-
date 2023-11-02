@@ -50,7 +50,10 @@
                 <td th:text="${acc.idAccessory}">id</td>
                 <td th:text="${acc.brand}">brand</td>
                 <td th:text="${acc.price}">price</td>
-                <td th:text="${acc.category.nameCategory}">1234</td>
+                <td th:text="${acc.category?.nameCategory ?: 'N/A'}">
+                  Name category
+                </td>
+
                 <td class="p-2" sec:authorize="hasRole('ADMIN')">
                   <a
                     th:href="@{/accessory/delete(id=${acc.idAccessory},keyword=${keyword},page=${currentPage})}"
@@ -62,7 +65,7 @@
                   </a>
                 </td>
                 <td class="p-2" sec:authorize="hasRole('ADMIN')">
-                  <a th:href="@{/accessory/update}">
+                  <a th:href="@{/accessory/update(id=${acc.idAccessory})}">
                     <i
                       class="fa-solid fa-pen-to-square fa-2xl"
                       style="color: #2759b0"
