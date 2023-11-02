@@ -90,7 +90,7 @@ public class ControllerApp {
         return "redirect:/category/add";
     }
 
-    /************** delete Accessory ***************** */
+    /************** Delete Accessory ***************** */
 
     @GetMapping("/accessory/delete")
     public String deleteAcc(Long id, String keyword, int page, RedirectAttributes redirectAttributes) {
@@ -99,4 +99,11 @@ public class ControllerApp {
         return "redirect:/home?keyword=" + keyword + "&page=" + page;
     }
 
+    /************** Update Accessory ***************** */
+
+    @GetMapping("/accessory/update")
+    public String updateAccessory() {
+
+        return "formUpdateAcc";
+    }
 }
