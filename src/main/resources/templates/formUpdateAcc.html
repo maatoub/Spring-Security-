@@ -27,7 +27,7 @@
             <div class="card-body">
               <form
                 method="post"
-                th:action="@{/accessory/update/save}"
+                th:action="@{/accessory/update/save(keyword=${keyword},page=${currentPage})}"
                 th:object="${accessory}"
               >
                 <div>
@@ -35,7 +35,7 @@
                 </div>
                 <div class="mb-2">
                   <label for="category" class="form-label">Category</label>
-                  <select class="form-select">
+                  <select class="form-select" name="category">
                     <option
                       th:each="c : ${categories}"
                       th:text="${c.nameCategory}"

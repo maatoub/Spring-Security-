@@ -101,18 +101,24 @@ public class ControllerApp {
     /************** Update Accessory ***************** */
 
     @GetMapping("/accessory/update")
-    public String updateAccessory(Long id, Model model) {
+    public String updateAccessory(Long id, Model model, String keyword, int page) {
         Accessory acc = repoAccessory.findById(id).get();
         List<Category> categories = repoCategory.findAll();
         model.addAttribute("accessory", acc);
         model.addAttribute("categories", categories);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("keyword", keyword);
         return "formUpdateAcc";
     }
 
     @PostMapping("/accessory/update/save")
-    public String updating(@ModelAttribute Accessory accessory) {
+    public String updating(Model model,
+            @ModelAttribute Accessory accessory,
+            @RequestParam(defaultValue = "") String keyword,
+            @RequestParam(defaultValue = "0") int page) {
+
         repoAccessory.save(accessory);
-        return "redirect:/home";
+        return "redirect:/home?keyword=" + keyword + "&page=" + page;
     }
 
 }
