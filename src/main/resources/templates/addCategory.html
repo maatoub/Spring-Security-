@@ -31,16 +31,18 @@
                   <div class="row mb-3">
                      <div class="col">
                         <div class="form-floating">
-                           <input type="text" class="form-control"  id="nameCategory" name="nameCategory" placeholder="Name category">
+                           <input type="text" class="form-control"  th:value="${newCategory.nameCategory}" name="nameCategory" placeholder="Name category">
                            <label for="nameCategory">Name category</label>
+                           <span class="text-danger" th:errors="${newCategory.nameCategory}"></span>
                         </div>
                      </div>
                   </div>
                   <div class="row mb-3">
                      <div class="col">
                         <div class="form-floating">
-                           <input type="date" class="form-control"  id="date" name="date" placeholder="date">
+                           <input type="date" class="form-control" name="date" placeholder="date">
                            <label for="date">Date</label>
+                           <span class="text-danger" th:errors="${newCategory.date}"></span>
                         </div>
                      </div>
                      <div class="d-grid gap-2 mt-3">

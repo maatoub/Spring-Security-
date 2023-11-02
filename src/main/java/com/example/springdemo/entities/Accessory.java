@@ -25,7 +25,8 @@ public class Accessory {
     @NotEmpty
     @Size(min = 4, max = 20)
     private String brand;
-    @DecimalMax("20000.0") @DecimalMin("1000.0")
+    @DecimalMax("20000.0")
+    @DecimalMin("1000.0")
     private double price;
     @ManyToOne(fetch = FetchType.EAGER)
     private Category category;
