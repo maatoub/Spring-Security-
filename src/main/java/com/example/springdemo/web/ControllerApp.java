@@ -31,6 +31,11 @@ public class ControllerApp {
     @Autowired
     RepoCategory repoCategory;
 
+    @GetMapping("/login")
+    public String pageLogin(){
+        return "login";
+    }
+
     @GetMapping("/home")
     public String pageHome(
             Model model,

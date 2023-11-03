@@ -29,8 +29,8 @@ public class SecurityConfig {
                             .requestMatchers("/category/**").hasRole("ADMIN")
                             .anyRequest().authenticated();
                 })
-                .httpBasic(Customizer.withDefaults())
-                .formLogin(login -> login.defaultSuccessUrl("/home"));
+
+                .formLogin(login -> login.loginPage("/login").defaultSuccessUrl("/home").permitAll());
         return http.build();
     }
 }

@@ -1,7 +1,7 @@
 -- MySQL
 -- File: schema-mysql.sql
 -- Description: Database setup for MySQL
-
+/*
 create table if not exists users (
   username varchar(50) not null primary key,
   password varchar(500) not null,
