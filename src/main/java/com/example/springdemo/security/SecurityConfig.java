@@ -24,7 +24,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> {
                     authorize
                             // Configure public resources
-                            .requestMatchers("/").permitAll()
+                            .requestMatchers("/","/css/**").permitAll()
                             .requestMatchers("/accessory/**").hasRole("ADMIN")
                             .requestMatchers("/category/**").hasRole("ADMIN")
                             .anyRequest().authenticated();
