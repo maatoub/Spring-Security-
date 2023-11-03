@@ -32,8 +32,19 @@ public class ControllerApp {
     RepoCategory repoCategory;
 
     @GetMapping("/login")
-    public String pageLogin(){
+    public String pageLogin() {
         return "login";
+    }
+
+    @GetMapping("/register")
+    public String pageRegister() {
+        return "register";
+    }
+
+    @PostMapping("/handleLogin")
+    public String handleLogin() {
+
+        return "redirect:/home";
     }
 
     @GetMapping("/home")
