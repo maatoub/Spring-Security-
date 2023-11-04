@@ -8,21 +8,29 @@
 }
 
 .form {
-    background-color: #fff;
+    background-color: #fffefe;
     display: block;
-    box-shadow: 2px 2px 2px 1px #b3a3a3;
+    box-shadow: 2px 1px 2px 2px #204986;
     padding: 50px;
     max-width: 350px;
     border-radius: 0.5rem;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+
 }
 
 .form-title {
-    font-size: 1.25rem;
+    font-size: 1.33rem;
     line-height: 1.75rem;
     font-weight: 600;
     text-align: center;
-    color: #000;
+    color: #6855e2;
+}
+
+.alert-msg {
+    line-height: 1.75rem;
+    font-weight: 200;
+    text-align: center;
+    color: red;
+
 }
 
 .input-container {
@@ -71,5 +79,5 @@
 }
 
 .signup-link a {
-    text-decoration: underline;
+    text-decoration: none;
 }

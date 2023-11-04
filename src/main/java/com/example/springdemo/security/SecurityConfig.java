@@ -17,7 +17,6 @@ public class SecurityConfig {
      * return new JdbcUserDetailsManager(dataSource);
      * }
      * 
-     * 
      */
 
     @Bean
@@ -33,6 +32,7 @@ public class SecurityConfig {
                 })
 
                 .formLogin(login -> login.loginPage("/login").defaultSuccessUrl("/home").permitAll());
+        http.exceptionHandling(handling -> handling.accessDeniedPage("/notAuthorized"));
         return http.build();
     }
 }
