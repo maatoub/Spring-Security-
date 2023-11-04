@@ -1,6 +1,5 @@
 package com.example.springdemo.web;
 
-import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,7 +20,7 @@ import com.example.springdemo.entities.AppUser;
 import com.example.springdemo.entities.Category;
 import com.example.springdemo.repository.RepoAccessory;
 import com.example.springdemo.repository.RepoCategory;
-import com.example.springdemo.repository.RepoRole;
+
 import com.example.springdemo.repository.RepoUser;
 import com.example.springdemo.service.AppService;
 
@@ -36,34 +35,43 @@ public class ControllerApp {
     @Autowired
     RepoCategory repoCategory;
 
-    AppService appService;
+    @Autowired
+    RepoUser repoUser;
+    private AppService appService;
+
+    public ControllerApp(AppService appService) {
+        this.appService = appService;
+    }
 
     @GetMapping("/login")
     public String pageLogin() {
         return "login";
     }
 
-    /*
-     * @GetMapping("/register")
-     * public String pageRegister(Model model) {
-     * model.addAttribute("user", new AppUser());
-     * return "register";
-     * }
-     * 
-     * @PostMapping("/registration")
-     * public String handleLogin(@ModelAttribute("user") AppUser user) {
-     * try {
-     * AppUser newUser = appService.addUser(user.getUsername(),
-     * user.getPassword(),
-     * user.getPassword());
-     * appService.addRoleToUser(newUser.getUsername(), "USER");
-     * } catch (Exception e) {
-     * e.printStackTrace();
-     * }
-     * 
-     * return "redirect:/login";
-     * }
-     */
+    @GetMapping("/register")
+    public String pageRegister(Model model) {
+        model.addAttribute("user", new AppUser());
+        return "register";
+    }
+
+    @PostMapping("/registration")
+    public String handleLogin(@Valid @ModelAttribute("user") AppUser user, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            return "register";
+        }
+        try {
+            AppUser newUser = appService.addUser(user.getUsername(),
+                    user.getPassword(),
+                    user.getPassword());
+            appService.addRoleToUser(newUser.getUsername(), "USER");
+            repoUser.save(newUser);
+        } catch (Exception e) {
+            model.addAttribute("error", e.getMessage());
+            return "register";
+        }
+        return "redirect:/registration";
+    }
+
     @GetMapping("/home")
     public String pageHome(
             Model model,
