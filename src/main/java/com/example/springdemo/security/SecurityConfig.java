@@ -12,8 +12,7 @@ import com.example.springdemo.service.ServiceUserDetailsImp;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-    @Autowired
-    private ServiceUserDetailsImp userDetailsImp;
+
     /*
      * 
      * @Bean
@@ -22,6 +21,8 @@ public class SecurityConfig {
      * }
      * 
      */
+    @Autowired
+    private ServiceUserDetailsImp userDetailsImp;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -29,13 +30,13 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> {
                     authorize
                             // Configure public resources
-                            .requestMatchers("/", "/css/**", "/register").permitAll()
+                            .requestMatchers("/", "/css/**").permitAll()
                             .requestMatchers("/accessory/**").hasRole("ADMIN")
                             .requestMatchers("/category/**").hasRole("ADMIN")
                             .anyRequest().authenticated();
                 })
 
-                .formLogin(login -> login.loginPage("/login").defaultSuccessUrl("/home", true).permitAll());
+                .formLogin(login -> login.loginPage("/login").defaultSuccessUrl("/home",true).permitAll());
         http.userDetailsService(userDetailsImp);
         http.exceptionHandling(handling -> handling.accessDeniedPage("/notAuthorized"));
         return http.build();

@@ -36,7 +36,6 @@ public class ControllerApp {
     @Autowired
     RepoCategory repoCategory;
 
-    @Autowired
     AppService appService;
 
     @GetMapping("/login")
@@ -44,28 +43,27 @@ public class ControllerApp {
         return "login";
     }
 
-    @GetMapping("/register")
-    public String pageRegister(Model model) {
-        model.addAttribute("user", new AppUser());
-        return "register";
-    }
-
-    @PostMapping("/registration")
-    public String handleLogin(@ModelAttribute("user") AppUser user) {
-        try {
-            /************* ROLE *************/
-            appService.addRole("USER");
-            /************* USER *************/
-            appService.addUser("nasser", "1234", "1234");
-            /************* USER *************/
-            appService.addRoleToUser("nasser", "USER");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return "redirect:/login";
-    }
-
+    /*
+     * @GetMapping("/register")
+     * public String pageRegister(Model model) {
+     * model.addAttribute("user", new AppUser());
+     * return "register";
+     * }
+     * 
+     * @PostMapping("/registration")
+     * public String handleLogin(@ModelAttribute("user") AppUser user) {
+     * try {
+     * AppUser newUser = appService.addUser(user.getUsername(),
+     * user.getPassword(),
+     * user.getPassword());
+     * appService.addRoleToUser(newUser.getUsername(), "USER");
+     * } catch (Exception e) {
+     * e.printStackTrace();
+     * }
+     * 
+     * return "redirect:/login";
+     * }
+     */
     @GetMapping("/home")
     public String pageHome(
             Model model,
