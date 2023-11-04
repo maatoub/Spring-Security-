@@ -1,5 +1,6 @@
 package com.example.springdemo.web;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,9 +17,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.springdemo.entities.Accessory;
+import com.example.springdemo.entities.AppUser;
 import com.example.springdemo.entities.Category;
 import com.example.springdemo.repository.RepoAccessory;
 import com.example.springdemo.repository.RepoCategory;
+import com.example.springdemo.repository.RepoRole;
+import com.example.springdemo.repository.RepoUser;
+import com.example.springdemo.service.AppService;
 
 import jakarta.validation.Valid;
 
@@ -31,20 +36,34 @@ public class ControllerApp {
     @Autowired
     RepoCategory repoCategory;
 
+    @Autowired
+    AppService appService;
+
     @GetMapping("/login")
     public String pageLogin() {
         return "login";
     }
 
     @GetMapping("/register")
-    public String pageRegister() {
+    public String pageRegister(Model model) {
+        model.addAttribute("user", new AppUser());
         return "register";
     }
 
-    @PostMapping("/handleLogin")
-    public String handleLogin() {
+    @PostMapping("/registration")
+    public String handleLogin(@ModelAttribute("user") AppUser user) {
+        try {
+            /************* ROLE *************/
+            appService.addRole("USER");
+            /************* USER *************/
+            appService.addUser("nasser", "1234", "1234");
+            /************* USER *************/
+            appService.addRoleToUser("nasser", "USER");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        return "redirect:/home";
+        return "redirect:/login";
     }
 
     @GetMapping("/home")
