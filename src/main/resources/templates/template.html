@@ -57,6 +57,13 @@
                 >
                   Add Category
                 </a>
+                <a
+                  class="dropdown-item"
+                  th:href="@{/add/users}"
+                  sec:authorize="hasRole('ADMIN')"
+                >
+                  Add Users
+                </a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" th:href="@{/logout}">Logout</a>
               </div>

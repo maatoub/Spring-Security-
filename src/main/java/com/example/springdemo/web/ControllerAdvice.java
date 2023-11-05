@@ -4,8 +4,5 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 public class ControllerAdvice {
 
-    @GetMapping("/notAuthorized")
-    public String notAuthorizedPage() {
-        return "notAuthorized";
-    }
+
 }

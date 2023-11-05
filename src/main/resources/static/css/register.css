@@ -115,6 +115,10 @@
     color: green;
 }
 
+.msg-errors {
+    color: red;
+}
+
 .submit {
     border: none;
     outline: none;

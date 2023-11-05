@@ -16,13 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.springdemo.entities.Accessory;
-import com.example.springdemo.entities.AppUser;
 import com.example.springdemo.entities.Category;
 import com.example.springdemo.repository.RepoAccessory;
 import com.example.springdemo.repository.RepoCategory;
-
-import com.example.springdemo.repository.RepoUser;
-import com.example.springdemo.service.AppService;
 
 import jakarta.validation.Valid;
 
@@ -34,43 +30,6 @@ public class ControllerApp {
 
     @Autowired
     RepoCategory repoCategory;
-
-    @Autowired
-    RepoUser repoUser;
-    private AppService appService;
-
-    public ControllerApp(AppService appService) {
-        this.appService = appService;
-    }
-
-    @GetMapping("/login")
-    public String pageLogin() {
-        return "login";
-    }
-
-    @GetMapping("/register")
-    public String pageRegister(Model model) {
-        model.addAttribute("user", new AppUser());
-        return "register";
-    }
-
-    @PostMapping("/registration")
-    public String handleLogin(@Valid @ModelAttribute("user") AppUser user, BindingResult bindingResult, Model model) {
-        if (bindingResult.hasErrors()) {
-            return "register";
-        }
-        try {
-            AppUser newUser = appService.addUser(user.getUsername(),
-                    user.getPassword(),
-                    user.getPassword());
-            appService.addRoleToUser(newUser.getUsername(), "USER");
-            repoUser.save(newUser);
-        } catch (Exception e) {
-            model.addAttribute("error", e.getMessage());
-            return "register";
-        }
-        return "redirect:/registration";
-    }
 
     @GetMapping("/home")
     public String pageHome(
@@ -85,6 +44,11 @@ public class ControllerApp {
         model.addAttribute("currentPage", page);
         model.addAttribute("keyword", keyword);
         return "home";
+    }
+
+    @GetMapping("/notAuthorized")
+    public String notAuthorizedPage() {
+        return "notAuthorized";
     }
 
     /************** Accessory ***************** */
