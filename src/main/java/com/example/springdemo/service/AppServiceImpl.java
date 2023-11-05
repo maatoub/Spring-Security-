@@ -1,5 +1,6 @@
 package com.example.springdemo.service;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 
@@ -37,6 +38,7 @@ public class AppServiceImpl implements AppService {
                 .userId(UUID.randomUUID().toString())
                 .username(username)
                 .password(pEncoder.encode(password))
+                .roles(new ArrayList<>())
                 .build();
         AppUser userSaved = repoUser.save(user);
         return userSaved;

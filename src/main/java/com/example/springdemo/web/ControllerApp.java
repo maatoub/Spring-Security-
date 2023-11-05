@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.springdemo.entities.Accessory;
+import com.example.springdemo.entities.AppUser;
 import com.example.springdemo.entities.Category;
 import com.example.springdemo.repository.RepoAccessory;
 import com.example.springdemo.repository.RepoCategory;
+import com.example.springdemo.repository.RepoRole;
 
 import jakarta.validation.Valid;
 
@@ -30,6 +32,9 @@ public class ControllerApp {
 
     @Autowired
     RepoCategory repoCategory;
+
+    @Autowired
+    RepoRole repoRole;
 
     @GetMapping("/home")
     public String pageHome(
@@ -126,4 +131,12 @@ public class ControllerApp {
         return "redirect:/home?keyword=" + keyword + "&page=" + page;
     }
 
+    /**************** Add Users ***************** */
+
+    @GetMapping("/add/users")
+    public String addUsers(Model model) {
+        model.addAttribute("newUser", new AppUser());
+        model.addAttribute("roles", repoRole.findAll());
+        return "addUsers";
+    }
 }

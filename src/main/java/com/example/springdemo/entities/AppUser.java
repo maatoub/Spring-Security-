@@ -1,5 +1,6 @@
 package com.example.springdemo.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.Column;
@@ -12,9 +13,7 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Data
@@ -30,4 +29,8 @@ public class AppUser {
     private String password;
     @ManyToMany(fetch = FetchType.EAGER)
     private List<AppRole> roles;
+
+    public AppUser() {
+        this.roles = new ArrayList<>();
+    }
 }
