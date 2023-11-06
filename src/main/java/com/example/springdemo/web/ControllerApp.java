@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,11 +17,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.springdemo.entities.Accessory;
+import com.example.springdemo.entities.AppRole;
 import com.example.springdemo.entities.AppUser;
 import com.example.springdemo.entities.Category;
 import com.example.springdemo.repository.RepoAccessory;
 import com.example.springdemo.repository.RepoCategory;
 import com.example.springdemo.repository.RepoRole;
+import com.example.springdemo.service.AppService;
 
 import jakarta.validation.Valid;
 
@@ -35,6 +38,9 @@ public class ControllerApp {
 
     @Autowired
     RepoRole repoRole;
+
+    @Autowired
+    private AppService appService;
 
     @GetMapping("/home")
     public String pageHome(
@@ -133,10 +139,25 @@ public class ControllerApp {
 
     /**************** Add Users ***************** */
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/add/users")
     public String addUsers(Model model) {
         model.addAttribute("newUser", new AppUser());
         model.addAttribute("roles", repoRole.findAll());
         return "addUsers";
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/save/user")
+    public String saveUser(@Valid @ModelAttribute("newUser") AppUser user,
+            @ModelAttribute("roles") AppRole role,
+            @RequestParam(name = "password-confirm") String confPassword,
+            RedirectAttributes redirectAttributes) {
+        AppUser newUser = appService.addUser(
+                user.getUsername(), user.getPassword(), confPassword);
+        appService.addRoleToUser(newUser.getUsername(), role.getRole());
+        redirectAttributes.addFlashAttribute("successMessage",
+                "success The user" + " " + newUser.getUsername() + " was added successfully !");
+        return "redirect:/add/users";
     }
 }

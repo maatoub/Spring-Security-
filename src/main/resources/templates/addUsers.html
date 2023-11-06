@@ -23,9 +23,9 @@
       <div class=" align-items-center mt-5">
          <h5 class="text-center">Add new user</h5>
       </div>
- <!-- <div style="height: 50px;">
+      <div style="height: 50px;">
          <div th:if="${successMessage}" th:text="${successMessage}" class="alert alert-success"></div>
-      </div> -->
+      </div> 
       <div class="container d-flex justify-content-center align-items-center">
          <form method="post" th:action="@{/save/user}" th:object="${newUser}" >
             <div class="d-grid mt-4">
@@ -41,9 +41,30 @@
                </div>
                <div class="row mb-3">
                   <div class="col">
+                     <div class="form-floating">     
+                        <select class="form-select" name="role">
+                            <option th:each=" r: ${roles}" th:value="${r.role}" th:text="${r.role}" >
+                            </option>
+                        </select>
+                        <label for="role">Role</label>
+                     </div>
+                  </div>
+               </div>
+               <div class="row mb-3">
+                  <div class="col">
                      <div class="form-floating">
-                        <input type="password" th:field="*{password}" class="form-control" name="password" placeholder="password">
+                        <input type="password" th:field="*{password}" class="form-control" 
+                        th:value="${newUser.password}" name="password" placeholder="password">
                         <label for="password">Password</label>
+                        <span class="text-danger" th:errors="${newUser.password}"></span>
+                     </div>
+                  </div>
+               </div>
+               <div class="row mb-3">
+                  <div class="col">
+                     <div class="form-floating">
+                        <input type="password"  class="form-control" name="password-confirm" placeholder="password">
+                        <label for="password-confirm">Confirm password</label>
                         <span class="text-danger" th:errors="${newUser.password}"></span>
                      </div>
                   </div>
