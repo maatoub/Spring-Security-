@@ -26,6 +26,7 @@ public class AppUser {
     @Size(min = 4, max = 12)
     private String username;
     @NotEmpty
+    @Size(min = 4, max = 12)
     private String password;
     @ManyToMany(fetch = FetchType.EAGER)
     private List<AppRole> roles;

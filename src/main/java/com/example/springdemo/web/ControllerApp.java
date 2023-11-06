@@ -150,14 +150,23 @@ public class ControllerApp {
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/save/user")
     public String saveUser(@Valid @ModelAttribute("newUser") AppUser user,
-            @ModelAttribute("roles") AppRole role,
+            @ModelAttribute("roles") AppRole role, BindingResult result,
             @RequestParam(name = "password-confirm") String confPassword,
-            RedirectAttributes redirectAttributes) {
-        AppUser newUser = appService.addUser(
-                user.getUsername(), user.getPassword(), confPassword);
-        appService.addRoleToUser(newUser.getUsername(), role.getRole());
-        redirectAttributes.addFlashAttribute("successMessage",
-                "success The user" + " " + newUser.getUsername() + " was added successfully !");
+            RedirectAttributes redirectAttributes, Model model) {
+
+        try {
+            AppUser newUser = appService.addUser(
+                    user.getUsername(), user.getPassword(), confPassword);
+            appService.addRoleToUser(newUser.getUsername(), role.getRole());
+            redirectAttributes.addFlashAttribute("successMessage",
+                    "success The user" + " " + newUser.getUsername() + " was added successfully !");
+            if (result.hasErrors()) {
+                return "addUsers";
+            }
+        } catch (Exception e) {
+            model.addAttribute("errorMsg", e.getMessage());
+        }
+
         return "redirect:/add/users";
     }
 }

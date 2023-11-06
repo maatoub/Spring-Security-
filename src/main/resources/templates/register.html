@@ -37,12 +37,12 @@
         <label>
           <input name="password" placeholder="" type="password" class="input" />
           <span>Password</span>
-          <span class="msg-errors" th:errors="${user.username}"></span>
+          <span class="msg-errors" th:errors="${user.password}"></span>
         </label>
         <label>
           <input name="confirm-password" type="password" class="input" />
           <span>Confirm password</span>
-          <span class="msg-errors" th:errors="${user.username}"></span>
+          <span class="msg-errors" th:errors="${user.password}"></span>
           <span class="msg-errors" th:text="${error}"></span>
         </label>
         <button class="submit">Submit</button>

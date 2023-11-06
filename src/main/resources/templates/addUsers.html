@@ -66,6 +66,7 @@
                         <input type="password"  class="form-control" name="password-confirm" placeholder="password">
                         <label for="password-confirm">Confirm password</label>
                         <span class="text-danger" th:errors="${newUser.password}"></span>
+                        <span class="text-danger" th:text="${errorMsg}"></span>
                      </div>
                   </div>
                   <div class="d-grid gap-2 mt-3">
