@@ -154,19 +154,18 @@ public class ControllerApp {
             @RequestParam(name = "password-confirm") String confPassword,
             RedirectAttributes redirectAttributes, Model model) {
 
-        try {
-            AppUser newUser = appService.addUser(
-                    user.getUsername(), user.getPassword(), confPassword);
-            appService.addRoleToUser(newUser.getUsername(), role.getRole());
-            redirectAttributes.addFlashAttribute("successMessage",
-                    "success The user" + " " + newUser.getUsername() + " was added successfully !");
-            if (result.hasErrors()) {
-                return "addUsers";
-            }
-        } catch (Exception e) {
-            model.addAttribute("errorMsg", e.getMessage());
+        if (result.hasErrors()) {
+            return "addUsers";
         }
 
+        AppUser newUser = appService.addUser(
+                user.getUsername(), user.getPassword(), confPassword);
+        appService.addRoleToUser(newUser.getUsername(), role.getRole());
+        redirectAttributes.addFlashAttribute("successMessage",
+                "success The user" + " " + newUser.getUsername() + " was added successfully !");
+        // model.addAttribute("errorMsg", e.getMessage());
         return "redirect:/add/users";
+
     }
+
 }

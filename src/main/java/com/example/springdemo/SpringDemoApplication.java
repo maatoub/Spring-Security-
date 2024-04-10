@@ -10,6 +10,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 
 import com.example.springdemo.service.AppService;
+import com.example.springdemo.service.AppServiceImpl;
+import com.example.springdemo.service.ServiceUserDetailsImp;
 
 @SpringBootApplication
 public class SpringDemoApplication {
@@ -23,36 +25,20 @@ public class SpringDemoApplication {
 		return new BCryptPasswordEncoder();
 	}
 
-	// @Bean
-	CommandLineRunner commandLineRunner(JdbcUserDetailsManager detailsManager) {
-		PasswordEncoder pEncoder = pEncoder();
+	
+
+	/******************** inialize BDD  *********************** */
+	//@Bean
+	CommandLineRunner commandLineRunner(AppServiceImpl appService) {
 		return args -> {
-			detailsManager.createUser(
-					User.withUsername("user1")
-							.password(pEncoder.encode("1234"))
-							.roles("USER").build());
-			detailsManager.createUser(
-					User.withUsername("nasser")
-							.password(pEncoder.encode("1234"))
-							.roles("USER", "admin").build());
-		};
-
-	}
-
-	// @Bean
-	CommandLineRunner commandLineRunnerUserDetails(AppService appService) {
-
-		return args -> {
-			/************* ROLE *************/
+			
+			appService.addUser("user1", "12345", "12345");
+			appService.addUser("nasser", "12345", "12345");
 			appService.addRole("USER");
 			appService.addRole("ADMIN");
-			/************* USER *************/
-			appService.addUser("admin1", "1234", "1234");
-			appService.addUser("user1", "1234", "1234");
-			/************* USER *************/
-			appService.addRoleToUser("admin1", "ADMIN");
+			appService.addRoleToUser("user1", "USER");
+			appService.addRoleToUser("nasser", "ADMIN");
 		};
-
 	}
 
 }

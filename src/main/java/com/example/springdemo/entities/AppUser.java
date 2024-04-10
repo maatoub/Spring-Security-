@@ -23,10 +23,10 @@ public class AppUser {
     private String userId;
     @Column(unique = true)
     @NotEmpty
-    @Size(min = 4, max = 12)
+    @Size(min = 4, max = 200)
     private String username;
     @NotEmpty
-    @Size(min = 4, max = 12)
+    @Size(min = 4, max = 200)
     private String password;
     @ManyToMany(fetch = FetchType.EAGER)
     private List<AppRole> roles;
