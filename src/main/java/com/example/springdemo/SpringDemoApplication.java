@@ -23,16 +23,18 @@ public class SpringDemoApplication {
 	}
 
 	/******************** inialize BDD *********************** */
-	// @Bean
+	//@Bean
 	CommandLineRunner commandLineRunner(AppServiceImpl appService) {
 		return args -> {
 
 			appService.addUser("user1", "12345", "12345");
 			appService.addUser("nasser", "12345", "12345");
+			appService.addUser("admin", "admin", "admin");
 			appService.addRole("USER");
 			appService.addRole("ADMIN");
 			appService.addRoleToUser("user1", "USER");
 			appService.addRoleToUser("nasser", "ADMIN");
+			appService.addRoleToUser("admin", "ADMIN");
 		};
 	}
 
